@@ -1,0 +1,28 @@
+# Dont push unnecessary logs
+logs/
+
+# incase I dont clean objects before pushing
+Gif2Ascii
+obj/
+*.o
+*.tmp
+ 
+# More folders that store testing files that dont need to be pushed
+imgs/
+misc/
+redirects/
+
+.vscode/
+
+compile_commands.json
+.cache/
+
+gdb.txt
+
+*.plist
+.gdbinit
+.cache/
+.ccls-cache/
+.gdb_history
+
+catch_amalgamated.*
