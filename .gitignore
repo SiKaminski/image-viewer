@@ -6,6 +6,8 @@ Gif2Ascii
 obj/
 *.o
 *.tmp
+
+build/
  
 # More folders that store testing files that dont need to be pushed
 imgs/
