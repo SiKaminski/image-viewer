@@ -1,6 +1,8 @@
 #include <SDL3/SDL.h>
 #include <SDL3/SDL_error.h>
 #include <SDL3/SDL_events.h>
+#include <SDL3/SDL_render.h>
+#include <SDL3/SDL_surface.h>
 #include <SDL3/SDL_video.h>
 
 #include "globals.hpp"
@@ -29,7 +31,7 @@ int main(int argc, char** argv) {
     }
 
     SDL_Window* window = SDL_CreateWindow(
-            "Hello World",
+            PROJECT_NAME_STR,
             800,
             600,
             SDL_WINDOW_RESIZABLE
@@ -41,20 +43,40 @@ int main(int argc, char** argv) {
         return 1;
     }
 
+    SDL_Renderer* renderer = SDL_CreateRenderer(window, nullptr);
+    SDL_Texture* texture = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_RGBA8888, SDL_TEXTUREACCESS_STREAMING, 800, 600);
+
     bool running = true;
     SDL_Event event;
 
     while (running) {
         while (SDL_PollEvent(&event)) {
-            if (event.type == SDL_EVENT_QUIT) {
+            if (event.type == SDL_EVENT_QUIT)
                 running = false;
-            }
         }
 
-        SDL_Delay(16);
+        void* pixels;
+        int pitch;
+
+        SDL_LockTexture(texture, nullptr, &pixels, &pitch);
+        Uint32* buffer = static_cast<Uint32*>(pixels);
+
+        buffer[300 * (pitch / 4) + 400] = 0x00FF00FF;
+        // for (int y = 0; y < 300; ++y) {
+        //     for (int x = 0; x < 400; ++x) {
+        //     }
+        // }
+
+        SDL_UnlockTexture(texture);
+        SDL_RenderClear(renderer);
+        SDL_RenderTexture(renderer, texture, nullptr, nullptr);
+        SDL_RenderPresent(renderer);
     }
 
+    SDL_DestroyTexture(texture);
+    SDL_RenderPresent(renderer);
     SDL_DestroyWindow(window);
     SDL_Quit();
+
     return 0;
 }
