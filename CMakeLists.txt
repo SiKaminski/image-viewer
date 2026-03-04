@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.24)
-project(cpp-image-viewer VERSION 1.0 LANGUAGES CXX)
+project("cpp-image-viewer" VERSION 1.0 LANGUAGES CXX)
 find_package(SDL3 CONFIG QUIET)
 
 if(NOT SDL3_FOUND)
@@ -18,11 +18,20 @@ endif()
 set(CMAKE_CXX_STANDARD 23)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-add_executable(cpp-image-viewer
+add_executable(${PROJECT_NAME}
+    src/utils.cpp
+    src/cliflags.cpp
     src/main.cpp
 )
 
-target_include_directories(cpp-image-viewer PRIVATE include)
-target_link_libraries(cpp-image-viewer PRIVATE SDL3::SDL3)
+target_include_directories(${PROJECT_NAME} PRIVATE include)
+target_link_libraries(${PROJECT_NAME} PRIVATE SDL3::SDL3)
 
-target_compile_options(cpp-image-viewer PRIVATE -Wall -Wextra -Wpedantic)
+option(ENABLE_TRACING "Enable tracing output" OFF)
+
+if(ENABLE_TRACING)
+    target_compile_definitions(${PROJECT_NAME} PRIVATE TRACING=1)
+endif()
+
+target_compile_definitions(${PROJECT_NAME} PRIVATE PROJECT_NAME_STR="${PROJECT_NAME}")
+target_compile_options(${PROJECT_NAME} PRIVATE -Wall -Wextra -Wpedantic)

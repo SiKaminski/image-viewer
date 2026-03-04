@@ -1,12 +1,17 @@
-link_compile_commands: build
-	ln -s build/compile_commands.json .
 
-.PHONY: run
-run: build
-	SDL_VIDEODRIVER=x11 ./build/cpp-image-viewer
+.PHONY: all
+all: build
+	SDL_VIDEODRIVER=x11 ./build/cpp-image-viewer -f samples/jarvis.bmp
 
 .PHONY: build
 build:
-	cmake -S . -B build -DCMAKE_EXPORT_COMPILE_COMMANDS=ON
+	cmake -S . -B build -DCMAKE_EXPORT_COMPILE_COMMANDS=ON -DENABLE_TRACING=1
 	cmake --build build
 
+.PHONY: link_compile_commands
+link_compile_commands: build
+	ln -s build/compile_commands.json .
+
+.PHONY: clean
+clean:
+	rm -rf ./build/
