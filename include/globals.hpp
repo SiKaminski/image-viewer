@@ -16,7 +16,7 @@ namespace Globals
     constexpr int MINIMUM_ARGUMENT_COUNT {3};
 
     inline const std::vector<std::string> SUPPORTED_FILE_FORMATS = {
-        "bmp",
+        "bmp", ".dib"
     };
 
     inline Logger Logger;

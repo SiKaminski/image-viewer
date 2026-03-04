@@ -21,6 +21,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 add_executable(${PROJECT_NAME}
     src/utils.cpp
     src/cliflags.cpp
+    src/formats/bmp/file.cpp
     src/main.cpp
 )
 
