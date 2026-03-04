@@ -5,7 +5,7 @@
 #include <iostream>
 
 int main() {
-    if (SDL_Init(SDL_INIT_VIDEO)) { 
+    if (!SDL_Init(SDL_INIT_VIDEO)) { 
         std::cerr << "SDL could not initialize " << SDL_GetError() << std::endl;
         return 1;
     }
@@ -23,10 +23,20 @@ int main() {
         return 1;
     }
 
-    SDL_Delay(3000);
+    bool running = true;
+    SDL_Event event;
+
+    while (running) {
+        while (SDL_PollEvent(&event)) {
+            if (event.type == SDL_EVENT_QUIT) {
+                running = false;
+            }
+        }
+
+        SDL_Delay(16);
+    }
 
     SDL_DestroyWindow(window);
     SDL_Quit();
-
     return 0;
 }
