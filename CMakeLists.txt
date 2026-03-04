@@ -22,6 +22,7 @@ add_executable(cpp-image-viewer
     src/main.cpp
 )
 
+target_include_directories(cpp-image-viewer PRIVATE include)
 target_link_libraries(cpp-image-viewer PRIVATE SDL3::SDL3)
 
 target_compile_options(cpp-image-viewer PRIVATE -Wall -Wextra -Wpedantic)

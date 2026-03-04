@@ -3,6 +3,7 @@
 #include <SDL3/SDL_events.h>
 #include <SDL3/SDL_video.h>
 #include <iostream>
+#include <skutil/skutilflagparser.hpp>
 
 int main() {
     if (!SDL_Init(SDL_INIT_VIDEO)) { 
