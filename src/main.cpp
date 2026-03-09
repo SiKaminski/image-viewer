@@ -43,39 +43,39 @@ int main(int argc, char** argv) {
         return 1;
     }
 
-    SDL_Renderer* renderer = SDL_CreateRenderer(window, nullptr);
-    SDL_Texture* texture = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_RGBA8888, SDL_TEXTUREACCESS_STREAMING, 800, 600);
+    // SDL_Renderer* renderer = SDL_CreateRenderer(window, nullptr);
+    // SDL_Texture* texture = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_RGBA8888, SDL_TEXTUREACCESS_STREAMING, 800, 600);
 
-    bool running = true;
-    SDL_Event event;
+    // bool running = true;
+    // SDL_Event event;
 
-    while (running) {
-        while (SDL_PollEvent(&event)) {
-            if (event.type == SDL_EVENT_QUIT)
-                running = false;
-        }
+    // while (running) {
+    //     while (SDL_PollEvent(&event)) {
+    //         if (event.type == SDL_EVENT_QUIT)
+    //             running = false;
+    //     }
 
-        void* pixels;
-        int pitch;
+    //     void* pixels;
+    //     int pitch;
 
-        SDL_LockTexture(texture, nullptr, &pixels, &pitch);
-        Uint32* buffer = static_cast<Uint32*>(pixels);
+    //     SDL_LockTexture(texture, nullptr, &pixels, &pitch);
+    //     Uint32* buffer = static_cast<Uint32*>(pixels);
 
-        buffer[300 * (pitch / 4) + 400] = 0x00FF00FF;
-        // for (int y = 0; y < 300; ++y) {
-        //     for (int x = 0; x < 400; ++x) {
-        //     }
-        // }
+    //     buffer[300 * (pitch / 4) + 400] = 0x00FF00FF;
+    //     // for (int y = 0; y < 300; ++y) {
+    //     //     for (int x = 0; x < 400; ++x) {
+    //     //     }
+    //     // }
 
-        SDL_UnlockTexture(texture);
-        SDL_RenderClear(renderer);
-        SDL_RenderTexture(renderer, texture, nullptr, nullptr);
-        SDL_RenderPresent(renderer);
-    }
+    //     SDL_UnlockTexture(texture);
+    //     SDL_RenderClear(renderer);
+    //     SDL_RenderTexture(renderer, texture, nullptr, nullptr);
+    //     SDL_RenderPresent(renderer);
+    // }
 
-    SDL_DestroyTexture(texture);
-    SDL_RenderPresent(renderer);
-    SDL_DestroyWindow(window);
+    // SDL_DestroyTexture(texture);
+    // SDL_RenderPresent(renderer);
+    // SDL_DestroyWindow(window);
     SDL_Quit();
 
     return 0;
