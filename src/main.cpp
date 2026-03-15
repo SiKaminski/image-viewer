@@ -8,39 +8,36 @@
 #include "globals.hpp"
 #include "cliflags.hpp"
 
-int main(int argc, char** argv) {
-    #if TRACING
-    Globals::Logger.EnableTracing();
-    #endif
+void cleanup()
+{
+    // SDL_DestroyTexture(texture);
+    // SDL_RenderPresent(renderer);
+    // SDL_DestroyWindow(window);
+    SDL_Quit();
+}
 
-    if (argc < Globals::MINIMUM_ARGUMENT_COUNT) {
-        Globals::Logger.Log(ERROR, "usage: ./%s -f <filepath>", PROJECT_NAME_STR);
-        return 1;
-    } else {
-        CliArgs::InitalizeFlags(argc, argv);
-    }
-
-    if (Globals::FilePath == "") {
-        Globals::Logger.Log(ERROR, "Unsupported File Format");
-        return 1;
-    }
-
+int initSDL()
+{
     if (!SDL_Init(SDL_INIT_VIDEO)) { 
         Globals::Logger.Log(ERROR, "SDL could not initialize: %s", SDL_GetError());
-        return 1;
+        return -1;
     }
 
+    Uint64 windowFlag = SDL_WINDOW_RESIZABLE;
+    if (!Globals::MAXIMUM_WINDOW_HEIGHT && !Globals::MAXIMUM_WINDOW_WIDTH)
+        windowFlag = SDL_WINDOW_FULLSCREEN;
+
     SDL_Window* window = SDL_CreateWindow(
-            PROJECT_NAME_STR,
-            800,
-            600,
-            SDL_WINDOW_RESIZABLE
+        PROJECT_NAME_STR,
+        Globals::MINIMUM_WINDOW_WIDTH,
+        Globals::MINIMUM_WINDOW_HEIGHT,
+        windowFlag
     );
 
     if (!window) {
         Globals::Logger.Log(ERROR, "Window could not be created: %s", SDL_GetError()); 
         SDL_Quit();
-        return 1;
+        return -1;
     }
 
     // SDL_Renderer* renderer = SDL_CreateRenderer(window, nullptr);
@@ -72,11 +69,31 @@ int main(int argc, char** argv) {
     //     SDL_RenderTexture(renderer, texture, nullptr, nullptr);
     //     SDL_RenderPresent(renderer);
     // }
+  
+}
 
-    // SDL_DestroyTexture(texture);
-    // SDL_RenderPresent(renderer);
-    // SDL_DestroyWindow(window);
-    SDL_Quit();
+int main(int argc, char** argv) 
+{
+    #if TRACING
+    Globals::Logger.EnableTracing();
+    #endif
 
+    if (argc < Globals::MINIMUM_ARGUMENT_COUNT) {
+        Globals::Logger.Log(ERROR, "usage: ./%s -f <filepath>", PROJECT_NAME_STR);
+        return 1;
+    } else {
+        CliArgs::InitalizeFlags(argc, argv);
+    }
+
+    if (Globals::FilePath == "") {
+        Globals::Logger.Log(ERROR, "Unsupported File Format");
+        return 1;
+    }
+
+    int status = initSDL();
+    if (!status)
+      return status;
+
+    cleanup();
     return 0;
 }
