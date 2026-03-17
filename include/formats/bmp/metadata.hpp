@@ -9,8 +9,10 @@ namespace Format
 {
     namespace BMP
     {
+        constexpr int HEADER_BYTE_LEN {14};
+
         struct FileHeader {
-            byte BmpFileHeader[14];
+            byte BmpFileHeader[HEADER_BYTE_LEN];
         } __attribute__((packed));
     }
 }

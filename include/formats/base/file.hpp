@@ -4,6 +4,7 @@
 
 #include <string>
 #include <vector>
+#include <fstream>
 
 #include "types.hpp"
 
@@ -18,9 +19,11 @@ namespace Format
             virtual void showInfo();
             virtual int parse();
         protected:
+            virtual int Read(void* buf, size_t size, bool changePos, size_t offset);
 
             std::vector<byte> mRawFileData;
             std::string       mFilepath;
+            std::ifstream     mInStream;
     };
 }
 

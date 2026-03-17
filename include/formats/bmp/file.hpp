@@ -22,8 +22,7 @@ namespace Format
                 void showInfo();
                 int parse();
             private:
-
-                FileHeader header;
+                FileHeader* mHeader;
         };
     }
 }

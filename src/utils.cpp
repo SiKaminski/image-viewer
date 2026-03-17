@@ -1,8 +1,6 @@
 #include "utils.hpp"
 
 #include <sstream>
-#include <fstream>
-#include <stdexcept>
 #include <string>
 #include <vector>
 #include <iomanip>
@@ -35,23 +33,6 @@ namespace Utils
         return result;
     }
 
-    std::vector<byte> ReadFile(const std::string& filename)
-    {
-        std::ifstream file(filename, std::ios::binary | std::ios::ate);
-        if (!file)
-            throw std::runtime_error("Failed to open file");
-
-        // Get the file size
-        std::streamsize size = file.tellg();
-        file.seekg(0, std::ios::beg);
-
-        std::vector<byte> buffer(size);
-        if (!file.read(reinterpret_cast<char*>(buffer.data()), size))
-            throw std::runtime_error("Failed to read file");
-
-        return buffer;
-    }
-
     std::string HexToAscii(const std::string& hex)
     {
         std::string ascii = "";
@@ -64,14 +45,28 @@ namespace Utils
         return ascii;
     }
 
-    std::string HexToAscii(const std::vector<byte>& hexBuffer)
+    std::string HexToAscii(const std::vector<byte>& buf)
     {
-        std::ostringstream oss;
-        for (auto b : hexBuffer) {
-            oss << std::hex << std::setw(2) 
-                << std::setfill('0') << static_cast<int>(b);
+        return HexToAscii(buf.data(), buf.size());
+    }
+    
+    std::string HexToAscii(const byte* buf, size_t len)
+    {
+        std::string s;
+        s.reserve(len);
+        for (size_t i = 0; i < len; ++i)
+            s.push_back(static_cast<char>(buf[i]));
+
+        return s;
+    }
+
+    void PrintAscii(const std::string& str)
+    {
+        std::string out;
+        for (char c : str) {
+            out += c;
         }
 
-        return oss.str();
+        Globals::Logger.Log(DEBUG, out.c_str());
     }
 }
