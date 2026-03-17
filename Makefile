@@ -1,7 +1,7 @@
 
 .PHONY: all
 all: build
-	SDL_VIDEODRIVER=x11 ./build/cpp-image-viewer -f samples/jarvis.bmp
+	SDL_VIDEODRIVER=x11 ./build/image-viewer -f samples/jarvis.bmp
 
 .PHONY: build
 build:

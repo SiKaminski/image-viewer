@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.24)
-project("cpp-image-viewer" VERSION 1.0 LANGUAGES CXX)
+project("image-viewer" VERSION 1.0 LANGUAGES CXX)
 find_package(SDL3 CONFIG QUIET)
 
 if(NOT SDL3_FOUND)
