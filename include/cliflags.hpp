@@ -8,6 +8,6 @@ namespace CliArgs
 {
     void InitalizeFlags(int argc, char** argv);
     void File(OPT int inputCount, OPT char** inputVals);
-} // CliArgs
+} 
 
 #endif // _CLI_FLAGS_HPP_

@@ -7,6 +7,8 @@
 
 #include "globals.hpp"
 #include "cliflags.hpp"
+// #include "formats/base/file.hpp"
+#include "formats/bmp/file.hpp"
 
 void cleanup()
 {
@@ -70,6 +72,7 @@ int initSDL()
     //     SDL_RenderPresent(renderer);
     // }
   
+    return 0;
 }
 
 int main(int argc, char** argv) 
@@ -89,6 +92,11 @@ int main(int argc, char** argv)
         Globals::Logger.Log(ERROR, "Unsupported File Format");
         return 1;
     }
+
+    using namespace Format;
+    BMP::File file = BMP::File(Globals::FilePath);
+    file.parse();
+    // file.showInfo();
 
     int status = initSDL();
     if (!status)
