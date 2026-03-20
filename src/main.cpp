@@ -95,8 +95,6 @@ int main(int argc, char** argv)
 
     using namespace Format;
     BMP::File file = BMP::File(Globals::FilePath);
-    file.parse();
-    // file.showInfo();
 
     int status = initSDL();
     if (!status)

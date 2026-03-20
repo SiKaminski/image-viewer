@@ -7,7 +7,14 @@
 namespace Format
 {
     using namespace BMP;
-    File::File(const std::string& filepath) : BaseFile(filepath) { }
+    File::File(const std::string& filepath) : BaseFile(filepath)
+    {
+        mFilepath = filepath;
+        mInStream = std::ifstream(filepath.c_str(), std::ifstream::in | std::ifstream::binary);
+
+        parse();
+    }
+
     File::~File() {}
 
     int File::parse()
@@ -16,7 +23,15 @@ namespace Format
         mHeader = new BMP::FileHeader;
         status = Read((void*)mHeader, sizeof(BMP::FileHeader), true, 0);
         
-        std::string tmpHex = Utils::HexToAscii(reinterpret_cast<byte*>(mHeader), HEADER_BYTE_LEN);
+        std::string tmpHex = Utils::HexToAscii(reinterpret_cast<byte*>(mHeader->Signature), 2);
+        Utils::PrintAscii(tmpHex);
+
+        Globals::Logger.Log(INFO, "%i", mHeader->FileSize);
+
+        tmpHex = Utils::HexToAscii(reinterpret_cast<byte*>(mHeader->RESV), 4);
+        Utils::PrintAscii(tmpHex);
+
+        tmpHex = Utils::HexToAscii(reinterpret_cast<byte*>(mHeader->FileOffset), 4);
         Utils::PrintAscii(tmpHex);
 
         return status; 

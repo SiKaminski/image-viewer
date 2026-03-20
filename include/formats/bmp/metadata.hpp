@@ -12,7 +12,10 @@ namespace Format
         constexpr int HEADER_BYTE_LEN {14};
 
         struct FileHeader {
-            byte BmpFileHeader[HEADER_BYTE_LEN];
+            byte Signature[2];
+            byte FileSize[4];
+            byte RESV[4];
+            byte FileOffset[4];
         } __attribute__((packed));
     }
 }
